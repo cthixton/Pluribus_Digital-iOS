@@ -182,7 +182,8 @@ static NSInteger _currentWindows = 0;
     self.tabManager = [[LEANTabManager alloc] initWithTabBar:self.tabBar webviewController:self];
     self.toolbarManager = [[LEANToolbarManager alloc] initWithToolbar:self.toolbar webviewController:self];
     self.JSBridgeInterface = [[GNJSBridgeInterface alloc] init];
-    
+    self.fileWriterSharer = [[GNFileWriterSharer alloc] init];
+    self.fileWriterSharer.wvc = self;
     self.customHeadersManager = [[GNCustomHeaders alloc] init];
     
     // Launch screen overlay
@@ -266,9 +267,6 @@ static NSInteger _currentWindows = 0;
     
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
-    
-    self.fileWriterSharer = [[GNFileWriterSharer alloc] init];
-    self.fileWriterSharer.wvc = self;
     
     self.backgroundAudio = [[GNBackgroundAudio alloc] init];
     self.configPreferences = [GNConfigPreferences sharedPreferences];
@@ -435,7 +433,7 @@ static NSInteger _currentWindows = 0;
         }
     } else if ([name isEqualToString:UIContentSizeCategoryDidChangeNotification]) {
         NSString *contentSizeCategory = notification.userInfo[UIContentSizeCategoryNewValueKey];
-        [self applyCssForContentSizeCategory:contentSizeCategory];
+        [LEANUtilities applyFontScalingForContentSize:contentSizeCategory toWebView:self.wkWebview asUserScript:NO];
     }
 }
 
@@ -517,6 +515,8 @@ static NSInteger _currentWindows = 0;
         [self checkNavigationForUrl:url];
     }
     
+    [self addScriptMessageHandlersInWebView:self.wkWebview];
+    
     [((LEANAppDelegate *)[UIApplication sharedApplication].delegate).bridge runnerWillAppear:self];
 }
 
@@ -535,6 +535,7 @@ static NSInteger _currentWindows = 0;
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
 {
     [self.tabManager traitCollectionDidChange:previousTraitCollection];
+    [self.actionManager traitCollectionDidChange:previousTraitCollection];
 }
 
 - (void) buildDefaultToobar
@@ -823,45 +824,18 @@ static NSInteger _currentWindows = 0;
     [self.documentSharer shareRequest:self.currentRequest fromButton:sender];
 }
 
-- (void) updateNavigationBarItemsAnimated:(BOOL)animated
-{
-    NSMutableArray *buttons = [NSMutableArray array];
-    NSMutableArray *leftButtons = [NSMutableArray array];
-    NSMutableArray *rightButtons = [NSMutableArray array];
-    
+- (void) updateNavigationBarItemsAnimated:(BOOL)animated {
     BOOL backButtonShown = self.urlLevel > 1 || self.isWindowOpen;
+    BOOL allowLeftAction = !backButtonShown && self.navButton == nil;
+    LEANActionButtons *actions = [self.actionManager configureNavBarButtonsAllowingLeftAction:allowLeftAction];
     
-    if (self.actionManager.items)
-        [buttons addObjectsFromArray:self.actionManager.items];
-    
-    if (self.sidebarItemsEnabled && self.navButton)
-        [buttons addObject:self.navButton];
-    
-    // put sidebar button to the left
-    if (buttons.count == 1 && self.sidebarItemsEnabled && self.navButton) {
-        [leftButtons addObject:self.navButton];
-    }
-    else if (buttons.count <= 3 && backButtonShown) {
-        [rightButtons addObjectsFromArray:buttons];
-    }
-    // split buttons between the left and right navigation items
-    else {
-        float halfIndex = (float)[buttons count] / 2;
-        for (NSInteger i = 0; i < [buttons count]; i++) {
-            if (i < halfIndex) {
-                [rightButtons addObject:buttons[i]];
-            } else {
-                [leftButtons insertObject:buttons[i] atIndex:0];
-            }
-        }
+    if (self.navButton) {
+        [self.navigationItem setLeftBarButtonItems:@[self.navButton] animated:animated];
+    } else {
+        [self.navigationItem setLeftBarButtonItems:actions.leftItems animated:animated];
     }
     
-    // do not override the back button
-    if (!backButtonShown) {
-        [self.navigationItem setLeftBarButtonItems:leftButtons animated:animated];
-    }
-    
-    [self.navigationItem setRightBarButtonItems:rightButtons animated:animated];
+    [self.navigationItem setRightBarButtonItems:actions.rightItems animated:animated];
     [self.navigationItem setHidesBackButton:NO animated:animated];
 }
 
@@ -1261,17 +1235,18 @@ static NSInteger _currentWindows = 0;
         return;
     }
     
+    BOOL openShareDialog = [navigationAction.request.URL.scheme isEqualToString:@"data"] && ![LEANUtilities isOnePixelImage:navigationAction.request.URL];
     if (@available(iOS 15.0, *)) {
         if (navigationAction.shouldPerformDownload) {
-            BOOL shouldDownloadUrl = [((LEANAppDelegate *)UIApplication.sharedApplication.delegate).bridge webView:webView shouldDownloadUrl:navigationAction.request.URL];
-            
-            if (shouldDownloadUrl) {
-                [self.documentSharer shareUrl:navigationAction.request.URL fromView:self.wkWebview];
-                [self showWebviewWithDelay:0.3]; // Stop loading animation
-                decisionHandler(WKNavigationActionPolicyCancel, preferences);
-                return;
-            }
+            openShareDialog = [((LEANAppDelegate *)UIApplication.sharedApplication.delegate).bridge webView:webView shouldDownloadUrl:navigationAction.request.URL];
         }
+    }
+    
+    if (openShareDialog) {
+        [self.documentSharer shareUrl:navigationAction.request.URL fromView:self.wkWebview];
+        [self showWebviewWithDelay:0.3]; // Stop loading animation
+        decisionHandler(WKNavigationActionPolicyCancel, preferences);
+        return;
     }
     
     decisionHandler(WKNavigationActionPolicyAllow, preferences);
@@ -1410,10 +1385,15 @@ static NSInteger _currentWindows = 0;
     }
 }
 
--(void)initializeJSInterfaceInWebView:(WKWebView*) wkWebview
-{
-    [wkWebview.configuration.userContentController removeScriptMessageHandlerForName:GNJSBridgeName];
+- (void)addScriptMessageHandlersInWebView:(WKWebView*)wkWebview {
+    [self removeScriptMessageHandlersInWebView:wkWebview];
     [wkWebview.configuration.userContentController addScriptMessageHandler:self.JSBridgeInterface name:GNJSBridgeName];
+    [wkWebview.configuration.userContentController addScriptMessageHandler:self.fileWriterSharer name:GNFileWriterSharerName];
+}
+
+- (void)removeScriptMessageHandlersInWebView:(WKWebView*)wkWebview {
+    [wkWebview.configuration.userContentController removeScriptMessageHandlerForName:GNJSBridgeName];
+    [wkWebview.configuration.userContentController removeScriptMessageHandlerForName:GNFileWriterSharerName];
 }
 
 -(void)webView:(WKWebView *)webView contextMenuConfigurationForElement:(WKContextMenuElementInfo *)elementInfo completionHandler:(void (^)(UIContextMenuConfiguration * _Nullable))completionHandler {
@@ -1602,12 +1582,6 @@ static NSInteger _currentWindows = 0;
     // sms links
     if ([url.scheme isEqualToString:@"sms"]) {
         [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
-        return NO;
-    }
-    
-    // data links
-    if ([url.scheme isEqualToString:@"data"]) {
-        [self.documentSharer shareDataUrl:url];
         return NO;
     }
     
@@ -1842,8 +1816,7 @@ static NSInteger _currentWindows = 0;
     UIView *oldView;
     if (self.wkWebview) {
         oldView = self.wkWebview;
-        [self.wkWebview.configuration.userContentController removeScriptMessageHandlerForName:GNFileWriterSharerName];
-        [self.wkWebview.configuration.userContentController removeScriptMessageHandlerForName:GNJSBridgeName];
+        [self removeScriptMessageHandlersInWebView:self.wkWebview];
         
         // remove KVO
         @try {
@@ -1873,10 +1846,8 @@ static NSInteger _currentWindows = 0;
         [newView addObserver:self forKeyPath:@"canGoForward" options:0 context:nil];
         
         self.wkWebview.allowsBackForwardNavigationGestures = [GoNativeAppConfig sharedAppConfig].swipeGestures;
-        [self.wkWebview.configuration.userContentController removeScriptMessageHandlerForName:GNFileWriterSharerName];
-        [self.wkWebview.configuration.userContentController addScriptMessageHandler:self.fileWriterSharer name:GNFileWriterSharerName];
         self.fileWriterSharer.webView = newView;
-        [self initializeJSInterfaceInWebView:self.wkWebview]; // initialize JS Interface
+        [self addScriptMessageHandlersInWebView:self.wkWebview];
     } else {
         return;
     }
@@ -2139,10 +2110,6 @@ static NSInteger _currentWindows = 0;
         // set initial css theme
         NSString *mode = [[NSUserDefaults standardUserDefaults] objectForKey:@"darkMode"];
         [self setCssTheme:mode ?: appConfig.iosDarkMode andPersistData:NO];
-        
-        // Accessibility & Dynamic Type Support
-        UIContentSizeCategory contentSizeCategory = [UIApplication sharedApplication].preferredContentSizeCategory;
-        [self applyCssForContentSizeCategory:contentSizeCategory];
         
         [self runJavascriptWithCallback:@[@"median_library_ready", @"gonative_library_ready"] data:nil];
     });
@@ -2458,14 +2425,9 @@ static NSInteger _currentWindows = 0;
 }
 
 - (void) showSidebarNavButton {
-    UIButton *favButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [favButton setImage:[UIImage imageNamed:@"navImage"] forState:UIControlStateNormal];
-    [favButton addTarget:self action:@selector(showMenu)
-        forControlEvents:UIControlEventTouchUpInside];
-    [favButton setFrame:CGRectMake(0, 0, 36, 30)];
-    favButton.tintColor = [UIColor colorNamed:@"titleColor"];
-    self.navButton = [[UIBarButtonItem alloc] initWithCustomView:favButton];
-    self.navButton.accessibilityLabel = NSLocalizedString(@"button-menu", @"Button: Menu");
+    NSString *icon = [GoNativeAppConfig sharedAppConfig].sidebarMenuIcon ?: @"fas fa-bars";
+    NSString *label = NSLocalizedString(@"button-menu", @"Button: Menu");
+    self.navButton = [self.actionManager createNavBarButtonWithLabel:label icon:icon target:self action:@selector(showMenu)];
 }
 
 - (void) setNavigationButtonStatus
@@ -2856,38 +2818,6 @@ static NSInteger _currentWindows = 0;
         // persist statusbar and body bg color matching status
         [[NSUserDefaults standardUserDefaults] setBool:enableMatching forKey:@"matchStatusBarToBodyBgColor"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
-- (void)applyCssForContentSizeCategory:(NSString *)contentSizeCategory {
-    if (![GoNativeAppConfig sharedAppConfig].dynamicTypeEnabled) {
-        return;
-    }
-    
-    NSDictionary *fontScale = @{
-        UIContentSizeCategoryExtraSmall: @90,
-        UIContentSizeCategorySmall: @95,
-        UIContentSizeCategoryMedium: @100,
-        UIContentSizeCategoryLarge: @108,
-        UIContentSizeCategoryExtraLarge: @116,
-        UIContentSizeCategoryExtraExtraLarge: @124,
-        UIContentSizeCategoryExtraExtraExtraLarge: @132,
-        UIContentSizeCategoryAccessibilityMedium: @170,
-        UIContentSizeCategoryAccessibilityLarge: @190,
-        UIContentSizeCategoryAccessibilityExtraLarge: @210,
-        UIContentSizeCategoryAccessibilityExtraExtraLarge: @230,
-        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge: @250,
-    };
-    
-    if (fontScale[contentSizeCategory]) {
-        NSString *createStyleJs = @" "
-        "   var style = document.createElement('style'); "
-        "   style.innerHTML = 'body { -webkit-text-size-adjust: %@%%; }'; "
-        "   document.head.appendChild(style); "
-        " ";
-        
-        NSString *javascript = [NSString stringWithFormat:createStyleJs, fontScale[contentSizeCategory]];
-        [self.wkWebview evaluateJavaScript:javascript completionHandler:nil];
     }
 }
 

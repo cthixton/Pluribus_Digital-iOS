@@ -545,25 +545,11 @@
             [LEANUtilities injectJs:@"iosCustomJS" ToWebview:webview];
         }
         
-        // user script for viewport
-        {
-            NSString *stringViewport = [GoNativeAppConfig sharedAppConfig].stringViewport;
-            NSNumber *viewportWidth = [GoNativeAppConfig sharedAppConfig].forceViewportWidth;
-            NSString *pinchToZoom = [GoNativeAppConfig sharedAppConfig].pinchToZoom ? @"yes" : @"no";
-            
-            if (viewportWidth) {
-                stringViewport = [NSString stringWithFormat:@"width=%@,user-scalable=%@", viewportWidth, pinchToZoom];
-            }
-            
-            if (!stringViewport) {
-                stringViewport = @"";
-            }
-            
-            NSString *scriptSource = [NSString stringWithFormat:@"var gonative_setViewport = %@; var gonative_viewportElement = document.querySelector('meta[name=viewport]'); if (gonative_viewportElement) {   if (gonative_setViewport) {         gonative_viewportElement.content = gonative_setViewport;     } else {         gonative_viewportElement.content = gonative_viewportElement.content + ',user-scalable=%@';     } } else if (gonative_setViewport) {     gonative_viewportElement = document.createElement('meta');     gonative_viewportElement.name = 'viewport';     gonative_viewportElement.content = gonative_setViewport; document.head.appendChild(gonative_viewportElement);}", [LEANUtilities jsWrapString:stringViewport], pinchToZoom];
-            
-            WKUserScript *userScript = [[NSClassFromString(@"WKUserScript") alloc] initWithSource:scriptSource injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
-            [webview.configuration.userContentController addUserScript:userScript];
-        }
+        [self configureViewportOfWebView:webview];
+        
+        // Accessibility & Dynamic Type Support
+        UIContentSizeCategory contentSizeCategory = [UIApplication sharedApplication].preferredContentSizeCategory;
+        [self applyFontScalingForContentSize:contentSizeCategory toWebView:webview asUserScript:YES];
         
         [((LEANAppDelegate *)[UIApplication sharedApplication].delegate).bridge loadUserScriptsForContentController:webview.configuration.userContentController];
         
@@ -575,6 +561,79 @@
         
         // set user agent
         webview.customUserAgent = [GoNativeAppConfig sharedAppConfig].userAgent;
+    }
+}
+
++ (void)configureViewportOfWebView:(WKWebView *)webview {
+    NSNumber *viewportWidth = [GoNativeAppConfig sharedAppConfig].forceViewportWidth;
+    NSString *pinchToZoom = [GoNativeAppConfig sharedAppConfig].pinchToZoom ? @"yes" : @"no";
+
+    NSString *stringViewport = @"";
+    if (viewportWidth) {
+        stringViewport = [NSString stringWithFormat:@"width=%@,user-scalable=%@", viewportWidth, pinchToZoom];
+    }
+
+    NSString *scriptSource = [NSString stringWithFormat:
+        @"(function() {"
+         " var viewportContent = %@;"
+         " var viewport = document.querySelector('meta[name=viewport]');"
+         " if (viewport) {"
+         "     if (viewportContent) {"
+         "         viewport.content = viewportContent;"
+         "     } else {"
+         "         viewport.content += ',user-scalable=%@';"
+         "     }"
+         " } else if (viewportContent) {"
+         "     viewport = document.createElement('meta');"
+         "     viewport.name = 'viewport';"
+         "     viewport.content = viewportContent;"
+         "     document.head.appendChild(viewport);"
+         " }"
+         "})();",
+        [LEANUtilities jsWrapString:stringViewport],
+        pinchToZoom
+    ];
+
+    WKUserScript *userScript = [[WKUserScript alloc] initWithSource:scriptSource injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+    [webview.configuration.userContentController addUserScript:userScript];
+}
+
++ (void)applyFontScalingForContentSize:(NSString *)contentSizeCategory toWebView:(WKWebView *)webView asUserScript:(BOOL)asUserScript {
+    if (![GoNativeAppConfig sharedAppConfig].dynamicTypeEnabled) {
+        return;
+    }
+    
+    NSDictionary *fontScale = @{
+        UIContentSizeCategoryExtraSmall: @90,
+        UIContentSizeCategorySmall: @95,
+        UIContentSizeCategoryMedium: @100,
+        UIContentSizeCategoryLarge: @108,
+        UIContentSizeCategoryExtraLarge: @116,
+        UIContentSizeCategoryExtraExtraLarge: @124,
+        UIContentSizeCategoryExtraExtraExtraLarge: @132,
+        UIContentSizeCategoryAccessibilityMedium: @170,
+        UIContentSizeCategoryAccessibilityLarge: @190,
+        UIContentSizeCategoryAccessibilityExtraLarge: @210,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge: @230,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge: @250,
+    };
+    
+    if (!fontScale[contentSizeCategory]) {
+        return;
+    }
+    
+    NSString *createStyleJs = @" "
+    "   var style = document.createElement('style'); "
+    "   style.innerHTML = 'body { -webkit-text-size-adjust: %@%%; }'; "
+    "   document.head.appendChild(style); "
+    " ";
+    NSString *js = [NSString stringWithFormat:createStyleJs, fontScale[contentSizeCategory]];
+    
+    if (asUserScript) {
+        WKUserScript *userScript = [[WKUserScript alloc] initWithSource:js injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+        [webView.configuration.userContentController addUserScript:userScript];
+    } else {
+        [webView evaluateJavaScript:js completionHandler:nil];
     }
 }
 
@@ -853,6 +912,24 @@
         
         [task resume];
     }];
+}
+
++ (BOOL)isOnePixelImage:(NSURL *)url {
+    if (![url.scheme isEqualToString:@"data"]) {
+        return NO;
+    }
+
+    NSData *imageData = [NSData dataWithContentsOfURL:url];
+    if (!imageData) {
+        return NO;
+    }
+
+    UIImage *image = [UIImage imageWithData:imageData];
+    if (!image) {
+        return NO;
+    }
+
+    return image.size.width == 1 && image.size.height == 1;
 }
 
 @end

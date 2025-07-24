@@ -27,6 +27,7 @@
     if (self) {
         self.tabBar = tabBar;
         self.tabBar.delegate = self;
+        self.tabBar.unselectedItemTintColor = [UIColor colorNamed:@"inactiveTabBarItemColor"];
         self.wvc = wvc;
         self.showTabBar = NO;
         self.javascriptTabs = NO;
@@ -88,23 +89,6 @@
     }
 }
 
-- (UIEdgeInsets)insetsForIcon:(NSString *)iconName {
-    CGFloat offset = 8;
-    if ([iconName hasPrefix:@"custom "]) {
-        offset = 3;
-    } else if (![iconName hasPrefix:@"md "]) {
-        offset = 3.5;
-    }
-    
-    CGFloat titleOffsetY = [self titleOffsetY];
-    CGFloat rightOffet = -offset;
-    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad || titleOffsetY != 0) {
-        rightOffet += 5;
-    }
-    
-    return UIEdgeInsetsMake(-offset, -offset, -offset, rightOffet);
-}
-
 - (CGFloat)titleOffsetY {
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         return 0;
@@ -115,21 +99,30 @@
     return 0;
 }
 
-- (UITabBarItem *)createOrUpdateTabBarItem:(UITabBarItem *)tabBarItem withIcon:(NSString *)iconName title:(NSString *)title tag:(NSInteger)tag {
-    UIImage *iconImage = [LEANIcons imageForIconIdentifier:iconName size:20 color:[UIColor blackColor]];
-    
+- (CGFloat)sizeForIcon:(NSString *)iconName {
+    CGFloat size = 20;
+    if ([iconName hasPrefix:@"custom "]) {
+        size = size * 1.1;
+    } else if ([iconName hasPrefix:@"md "]) {
+        size = size * 1.25;
+    }
+    return size;
+}
+
+- (UITabBarItem *)createOrUpdateTabBarItem:(UITabBarItem *)tabBarItem withTitle:(NSString *)title activeIcon:(NSString *)activeIcon inactiveIcon:(NSString *)inactiveIcon tag:(NSInteger)tag {
     UITabBarItem *item = tabBarItem;
     if (!item) {
-        item = [[UITabBarItem alloc] initWithTitle:title image:iconImage tag:tag];
+        if (!inactiveIcon) {
+            inactiveIcon = activeIcon;
+        }
+        
+        UIImage *activeImage = [LEANIcons imageForIconIdentifier:activeIcon size:[self sizeForIcon:activeIcon] color:[UIColor blackColor]];
+        UIImage *inactiveImage = [LEANIcons imageForIconIdentifier:inactiveIcon size:[self sizeForIcon:inactiveIcon] color:[UIColor blackColor]];
+        item = [[UITabBarItem alloc] initWithTitle:title image:inactiveImage selectedImage:activeImage];
+        item.tag = tag;
     }
     
-    UIEdgeInsets insets = [self insetsForIcon:iconName];
-    item.largeContentSizeImageInsets = insets;
-    item.landscapeImagePhoneInsets = insets;
-    item.imageInsets = insets;
-    
     [item setTitlePositionAdjustment:UIOffsetMake(0, [self titleOffsetY])];
-    
     return item;
 }
 
@@ -140,17 +133,18 @@
     
     for (NSUInteger i = 0; i < [menu count]; i++) {
         NSString *label = menu[i][@"label"];
-        NSString *iconName = menu[i][@"icon"];
+        NSString *activeIcon = menu[i][@"icon"];
+        NSString *inactiveIcon = menu[i][@"inactiveIcon"];
         
         if (![label isKindOfClass:[NSString class]]) {
             label = @"";
         }
         
-        if (![iconName isKindOfClass:[NSString class]]) {
-            iconName = @"md mi-question-mark";
+        if (![activeIcon isKindOfClass:[NSString class]]) {
+            activeIcon = @"md mi-question-mark";
         }
         
-        UITabBarItem *item = [self createOrUpdateTabBarItem:nil withIcon:iconName title:label tag:i];
+        UITabBarItem *item = [self createOrUpdateTabBarItem:nil withTitle:label activeIcon:activeIcon inactiveIcon:inactiveIcon tag:i];
         [items addObject:item];
         
         if ([menu[i][@"selected"] boolValue]) {
@@ -171,11 +165,13 @@
         return;
     }
     
-    // we need to resize icons if the vertical size class has changed
+    // Resize title position offset on wide screens
     for (NSUInteger i = 0; i < [self.menu count]; i++) {
         UITabBarItem *item = self.tabBar.items[i];
-        NSString *iconName = self.menu[i][@"icon"];
-        [self createOrUpdateTabBarItem:item withIcon:iconName title:nil tag:i];
+        NSString *label = self.menu[i][@"label"];
+        NSString *activeIcon = self.menu[i][@"icon"];
+        NSString *inactiveIcon = self.menu[i][@"inactiveIcon"];
+        [self createOrUpdateTabBarItem:item withTitle:label activeIcon:activeIcon inactiveIcon:inactiveIcon tag:i];
     }
 }
 

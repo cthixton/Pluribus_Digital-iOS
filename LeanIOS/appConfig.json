@@ -25,10 +25,10 @@
     "androidUserAgentAdd": "median",
     "androidForceUserAgent": "",
     "androidSigningKey": "release",
-    "iosCustomHeaders": {},
-    "androidCustomHeaders": {},
     "injectMedianJS": true,
     "forceSessionCookieExpiry": 0,
+    "iosCustomHeaders": {},
+    "androidCustomHeaders": {},
     "version": 1
   },
   "navigation": {
@@ -352,11 +352,13 @@
     "forceViewportWidth": null,
     "pinchToZoom": null,
     "iosDynamicType": null,
-    "navigationTitleImageLocation": "assets/defaults/app-icon-placeholder.png",
-    "navigationTitleImageLocationDark": "assets/defaults/app-icon-placeholder.png",
-    "androidHeaderImage": "assets/defaults/app-icon-placeholder.png",
-    "androidHeaderImageDark": "assets/defaults/app-icon-placeholder.png",
-    "iosHeaderImageDark": "https://s3.amazonaws.com/gonativeio/app_files/ylykpd/app_icon_txukzzjze16z4_1739909649.png"
+    "navigationTitleImageLocation": "https://s3.amazonaws.com/gonativeio/app_files/ylykpd/app_icon_txukzzjze16z4_1739909649.png",
+    "navigationTitleImageLocationDark": "https://s3.amazonaws.com/gonativeio/app_files/ylykpd/app_icon_txukzzjze16z4_1739909649.png",
+    "androidHeaderImage": "https://s3.amazonaws.com/gonativeio/app_files/ylykpd/app_icon_txukzzjze16z4_1739909649.png",
+    "androidHeaderImageDark": "https://s3.amazonaws.com/gonativeio/app_files/ylykpd/app_icon_txukzzjze16z4_1739909649.png",
+    "iosHeaderImageDark": "https://s3.amazonaws.com/gonativeio/app_files/ylykpd/app_icon_txukzzjze16z4_1739909649.png",
+    "iosTabBarInactiveColor": "#A1A1A1",
+    "iosTabBarInactiveColorDark": "#818181"
   },
   "permissions": {
     "usesGeolocation": false,

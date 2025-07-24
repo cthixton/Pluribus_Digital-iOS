@@ -27,6 +27,7 @@
 +(NSString*)capitalizeWords:(NSString*)string;
 +(NSString*)getLaunchImageName;
 +(void)configureWebView:(UIView*)webview;
++(void)applyFontScalingForContentSize:(NSString *)contentSizeCategory toWebView:(WKWebView *)webView asUserScript:(BOOL)asUserScript;
 + (WKProcessPool *)wkProcessPool;
 +(NSArray<NSPredicate*>*)createRegexArrayFromStrings:(id)input;
 +(BOOL)string:(NSString*)string matchesAnyRegex:(NSArray<NSPredicate*>*)regexes;
@@ -35,4 +36,5 @@
 +(BOOL)checkNativeBridgeUrl:(NSString*)url;
 +(BOOL)cookie:(NSHTTPCookie*)cookie matchesUrl:(NSURL*)url;
 + (void)downloadUrl:(NSURL *)url filename:(NSString *)filename directory:(NSURL *)directory completion:(void (^)(NSURL *fileUrl))completion;
++ (BOOL)isOnePixelImage:(NSURL *)url;
 @end

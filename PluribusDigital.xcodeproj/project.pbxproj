@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A2DBDF3BF989D4F46E4852D /* Pods_PluribusDigital.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EECF6A8B81399E5366179F3 /* Pods_PluribusDigital.framework */; };
 		2002B49C18A9991300495B3D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2002B49B18A9991300495B3D /* Foundation.framework */; };
 		2002B49E18A9991300495B3D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2002B49D18A9991300495B3D /* CoreGraphics.framework */; };
 		2002B4A018A9991300495B3D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2002B49F18A9991300495B3D /* UIKit.framework */; };
@@ -30,7 +31,6 @@
 		2002B4FA18A99C4100495B3D /* LEANNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2002B4F318A99C4100495B3D /* LEANNavigationController.m */; };
 		2002B4FB18A99C4100495B3D /* LEANRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2002B4F518A99C4100495B3D /* LEANRootViewController.m */; };
 		2002B4FC18A99C4100495B3D /* LEANUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2002B4F718A99C4100495B3D /* LEANUtilities.m */; };
-		2002B51318AB093900495B3D /* jquery-2.1.0.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 2002B51118AB091C00495B3D /* jquery-2.1.0.min.js */; };
 		2004820518B080DD005FDD9A /* SidebarHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2004820418B080DD005FDD9A /* SidebarHeaderView.xib */; };
 		2004AF7B18F8F936001E01E9 /* LEANWebViewIntercept.m in Sources */ = {isa = PBXBuildFile; fileRef = 2004AF7A18F8F936001E01E9 /* LEANWebViewIntercept.m */; };
 		2018EE951907671A00EC4311 /* LEANUrlInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 2018EE941907671A00EC4311 /* LEANUrlInspector.m */; };
@@ -89,6 +89,7 @@
 		3946F0282BD0DE7100E74ED5 /* ContextMenuHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3946F0272BD0DE7100E74ED5 /* ContextMenuHandler.swift */; };
 		395C15702B75D19D00E2985D /* LEANWindowsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 395C156F2B75D19D00E2985D /* LEANWindowsManager.m */; };
 		396F42242A970DF9003FD87E /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396F42232A970DF9003FD87E /* UIApplication+Extensions.swift */; };
+		3972F5332D59C143009B5279 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3972F5322D59C143009B5279 /* CustomMenu.swift */; };
 		397F6C0C2AC14B4A00BD0474 /* LEANKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F6C0B2AC14B4A00BD0474 /* LEANKeyboardManager.m */; };
 		39B8E8632858B04A00355B24 /* LEANRegexRulesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B8E8612858B04A00355B24 /* LEANRegexRulesManager.m */; };
 		39C7BFCB2A85E666006AF63C /* LEANLaunchScreenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C7BFCA2A85E666006AF63C /* LEANLaunchScreenManager.m */; };
@@ -104,7 +105,6 @@
 		BBED1D612A4CBEB000180EBF /* customJS.js in Resources */ = {isa = PBXBuildFile; fileRef = BBED1D602A4CBEB000180EBF /* customJS.js */; };
 		BBED1D632A4CBEC900180EBF /* iosCustomCSS.css in Resources */ = {isa = PBXBuildFile; fileRef = BBED1D622A4CBEC900180EBF /* iosCustomCSS.css */; };
 		BBED1D652A4CBED900180EBF /* iosCustomJS.js in Resources */ = {isa = PBXBuildFile; fileRef = BBED1D642A4CBED900180EBF /* iosCustomJS.js */; };
-		F12E7D52C4A857479C89981B /* Pods_PluribusDigital.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B4A63F7F57ECD236498F19 /* Pods_PluribusDigital.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,7 +132,7 @@
 
 /* Begin PBXFileReference section */
 		0B6D83597DFB31F85DB20AAC /* Pods_MedianIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MedianIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2002B49818A9991300495B3D /* PluribusDigital.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PluribusDigital.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2002B49818A9991300495B3D /* Median.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Median.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2002B49B18A9991300495B3D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2002B49D18A9991300495B3D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2002B49F18A9991300495B3D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -170,7 +170,6 @@
 		2002B4F518A99C4100495B3D /* LEANRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEANRootViewController.m; sourceTree = "<group>"; };
 		2002B4F618A99C4100495B3D /* LEANUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEANUtilities.h; sourceTree = "<group>"; };
 		2002B4F718A99C4100495B3D /* LEANUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEANUtilities.m; sourceTree = "<group>"; };
-		2002B51118AB091C00495B3D /* jquery-2.1.0.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-2.1.0.min.js"; sourceTree = "<group>"; };
 		2004820418B080DD005FDD9A /* SidebarHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SidebarHeaderView.xib; sourceTree = "<group>"; };
 		2004AF7918F8F936001E01E9 /* LEANWebViewIntercept.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEANWebViewIntercept.h; sourceTree = "<group>"; };
 		2004AF7A18F8F936001E01E9 /* LEANWebViewIntercept.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEANWebViewIntercept.m; sourceTree = "<group>"; };
@@ -246,16 +245,18 @@
 		20F49C2619C7BE9100B46C5A /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		20FC7FB3199D1C7800A70B08 /* LEANTabManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEANTabManager.h; sourceTree = "<group>"; };
 		20FC7FB4199D1C7800A70B08 /* LEANTabManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEANTabManager.m; sourceTree = "<group>"; };
-		297DE35D83F1FCA44AB01947 /* Pods-PluribusDigital.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluribusDigital.release.xcconfig"; path = "Target Support Files/Pods-PluribusDigital/Pods-PluribusDigital.release.xcconfig"; sourceTree = "<group>"; };
+		27C76BBA97198B3A1363E221 /* Pods-PluribusDigital.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluribusDigital.debug.xcconfig"; path = "Target Support Files/Pods-PluribusDigital/Pods-PluribusDigital.debug.xcconfig"; sourceTree = "<group>"; };
 		37011C952BC40AAE00775CA0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		374399B52C2229E300B2F92D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		379E3D422A2147C4001C8A01 /* GNSwiftUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GNSwiftUtilities.swift; sourceTree = "<group>"; };
+		389B331E2C0EAC1A6707B49B /* Pods-PluribusDigital.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluribusDigital.release.xcconfig"; path = "Target Support Files/Pods-PluribusDigital/Pods-PluribusDigital.release.xcconfig"; sourceTree = "<group>"; };
 		3909A5A82C1C99E7001F68C3 /* MedianEventsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MedianEventsManager.m; sourceTree = "<group>"; };
 		3909A5AA2C1C99EE001F68C3 /* MedianEventsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MedianEventsManager.h; sourceTree = "<group>"; };
 		3946F0272BD0DE7100E74ED5 /* ContextMenuHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextMenuHandler.swift; sourceTree = "<group>"; };
 		395C156F2B75D19D00E2985D /* LEANWindowsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LEANWindowsManager.m; sourceTree = "<group>"; };
 		395C15712B75D1A900E2985D /* LEANWindowsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LEANWindowsManager.h; sourceTree = "<group>"; };
 		396F42232A970DF9003FD87E /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
+		3972F5322D59C143009B5279 /* CustomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
 		397F6C072AC147B000BD0474 /* LEANHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LEANHeaders.h; sourceTree = "<group>"; };
 		397F6C0A2AC14B3700BD0474 /* LEANKeyboardManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LEANKeyboardManager.h; sourceTree = "<group>"; };
 		397F6C0B2AC14B4A00BD0474 /* LEANKeyboardManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LEANKeyboardManager.m; sourceTree = "<group>"; };
@@ -269,9 +270,9 @@
 		39DE1B482935E67F0001E926 /* GNLogManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GNLogManager.m; sourceTree = "<group>"; };
 		39DE1E4B2C82014300E96CFE /* LEANLoadingSpinnerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LEANLoadingSpinnerManager.h; sourceTree = "<group>"; };
 		39DE1E4C2C82015900E96CFE /* LEANLoadingSpinnerManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LEANLoadingSpinnerManager.m; sourceTree = "<group>"; };
-		48B4A63F7F57ECD236498F19 /* Pods_PluribusDigital.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PluribusDigital.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C74E9233A1532B38445C85A /* Pods-MedianIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedianIOSTests.debug.xcconfig"; path = "Target Support Files/Pods-MedianIOSTests/Pods-MedianIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		74686CE5E5C79A441C3D2C20 /* Pods-Median.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Median.debug.xcconfig"; path = "Target Support Files/Pods-Median/Pods-Median.debug.xcconfig"; sourceTree = "<group>"; };
+		9EECF6A8B81399E5366179F3 /* Pods_PluribusDigital.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PluribusDigital.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A790DA6927FDBA77A0DE081F /* Pods-MedianIOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedianIOSTests.release.xcconfig"; path = "Target Support Files/Pods-MedianIOSTests/Pods-MedianIOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		BB182FAF2683478900DC8EAA /* LEANDlogDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LEANDlogDefinition.h; sourceTree = "<group>"; };
 		BB3C460D26A9C1F9007D03DA /* GoNativeJSBridgeLibrary.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = GoNativeJSBridgeLibrary.js; sourceTree = "<group>"; };
@@ -283,7 +284,6 @@
 		BBED1D602A4CBEB000180EBF /* customJS.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = customJS.js; sourceTree = "<group>"; };
 		BBED1D622A4CBEC900180EBF /* iosCustomCSS.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = iosCustomCSS.css; sourceTree = "<group>"; };
 		BBED1D642A4CBED900180EBF /* iosCustomJS.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = iosCustomJS.js; sourceTree = "<group>"; };
-		DA6535906EE5091B3471051C /* Pods-PluribusDigital.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluribusDigital.debug.xcconfig"; path = "Target Support Files/Pods-PluribusDigital/Pods-PluribusDigital.debug.xcconfig"; sourceTree = "<group>"; };
 		F9BBED51E055455D5C4808AF /* Pods-Median.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Median.release.xcconfig"; path = "Target Support Files/Pods-Median/Pods-Median.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -306,7 +306,7 @@
 				2002B49E18A9991300495B3D /* CoreGraphics.framework in Frameworks */,
 				2002B4A018A9991300495B3D /* UIKit.framework in Frameworks */,
 				2002B49C18A9991300495B3D /* Foundation.framework in Frameworks */,
-				F12E7D52C4A857479C89981B /* Pods_PluribusDigital.framework in Frameworks */,
+				0A2DBDF3BF989D4F46E4852D /* Pods_PluribusDigital.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,7 +338,7 @@
 		2002B49918A9991300495B3D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2002B49818A9991300495B3D /* PluribusDigital.app */,
+				2002B49818A9991300495B3D /* Median.app */,
 				2002B4BC18A9991300495B3D /* MedianIOSTests.xctest */,
 			);
 			name = Products;
@@ -363,7 +363,7 @@
 				2002B49D18A9991300495B3D /* CoreGraphics.framework */,
 				2002B49F18A9991300495B3D /* UIKit.framework */,
 				0B6D83597DFB31F85DB20AAC /* Pods_MedianIOSTests.framework */,
-				48B4A63F7F57ECD236498F19 /* Pods_PluribusDigital.framework */,
+				9EECF6A8B81399E5366179F3 /* Pods_PluribusDigital.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -387,9 +387,9 @@
 				374399B42C2229E300B2F92D /* InfoPlist.strings */,
 				20A525ED1A7D94EE00936DC5 /* Settings.bundle */,
 				209A964423BAC508001906F1 /* appbeep.wav */,
-				2002B51118AB091C00495B3D /* jquery-2.1.0.min.js */,
 				397F6C072AC147B000BD0474 /* LEANHeaders.h */,
 				3946F0272BD0DE7100E74ED5 /* ContextMenuHandler.swift */,
+				3972F5322D59C143009B5279 /* CustomMenu.swift */,
 				3909A5AA2C1C99EE001F68C3 /* MedianEventsManager.h */,
 				3909A5A82C1C99E7001F68C3 /* MedianEventsManager.m */,
 				209A964123BABF2D001906F1 /* GNBackgroundAudio.h */,
@@ -557,8 +557,8 @@
 				F9BBED51E055455D5C4808AF /* Pods-Median.release.xcconfig */,
 				4C74E9233A1532B38445C85A /* Pods-MedianIOSTests.debug.xcconfig */,
 				A790DA6927FDBA77A0DE081F /* Pods-MedianIOSTests.release.xcconfig */,
-				DA6535906EE5091B3471051C /* Pods-PluribusDigital.debug.xcconfig */,
-				297DE35D83F1FCA44AB01947 /* Pods-PluribusDigital.release.xcconfig */,
+				27C76BBA97198B3A1363E221 /* Pods-PluribusDigital.debug.xcconfig */,
+				389B331E2C0EAC1A6707B49B /* Pods-PluribusDigital.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -584,7 +584,7 @@
 			);
 			name = PluribusDigital;
 			productName = LeanIOS;
-			productReference = 2002B49818A9991300495B3D /* PluribusDigital.app */;
+			productReference = 2002B49818A9991300495B3D /* Median.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2002B4BB18A9991300495B3D /* MedianIOSTests */ = {
@@ -686,7 +686,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				20B927AA28C4F03E004D4C15 /* custom-icons.ttf in Resources */,
-				2002B51318AB093900495B3D /* jquery-2.1.0.min.js in Resources */,
 				20A13ABC1905FAA600B997DD /* MenuChildNoIcon.xib in Resources */,
 				BB3C460E26A9C1F9007D03DA /* GoNativeJSBridgeLibrary.js in Resources */,
 				20580E031B2E53730061943C /* offline.html in Resources */,
@@ -826,6 +825,7 @@
 				2004AF7B18F8F936001E01E9 /* LEANWebViewIntercept.m in Sources */,
 				2002B4EA18A99A9900495B3D /* UIViewController+REFrostedViewController.m in Sources */,
 				2002B4FA18A99C4100495B3D /* LEANNavigationController.m in Sources */,
+				3972F5332D59C143009B5279 /* CustomMenu.swift in Sources */,
 				395C15702B75D19D00E2985D /* LEANWindowsManager.m in Sources */,
 				379E3D432A2147C4001C8A01 /* GNSwiftUtilities.swift in Sources */,
 				20CC8EFE2677BE470083982E /* WindowsController.swift in Sources */,
@@ -1056,7 +1056,7 @@
 		};
 		2002B4CE18A9991300495B3D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA6535906EE5091B3471051C /* Pods-PluribusDigital.debug.xcconfig */;
+			baseConfigurationReference = 27C76BBA97198B3A1363E221 /* Pods-PluribusDigital.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1064,8 +1064,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = ZHN2P52NGG;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
@@ -1085,7 +1085,7 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.audrinc.pluribusdigital;
+				PRODUCT_BUNDLE_IDENTIFIER = co.median.ios.ylykpd;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1100,7 +1100,7 @@
 		};
 		2002B4CF18A9991300495B3D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 297DE35D83F1FCA44AB01947 /* Pods-PluribusDigital.release.xcconfig */;
+			baseConfigurationReference = 389B331E2C0EAC1A6707B49B /* Pods-PluribusDigital.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1108,8 +1108,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = ZHN2P52NGG;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
@@ -1129,7 +1129,7 @@
 					"-ObjC",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.audrinc.pluribusdigital;
+				PRODUCT_BUNDLE_IDENTIFIER = co.median.ios.ylykpd;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

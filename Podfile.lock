@@ -1,7 +1,7 @@
 PODS:
-  - GoNativeCore (2.4.2):
-    - GoNativeCore/Binary (= 2.4.2)
-  - GoNativeCore/Binary (2.4.2)
+  - GoNativeCore (2.4.9):
+    - GoNativeCore/Binary (= 2.4.9)
+  - GoNativeCore/Binary (2.4.9)
   - MedianIcons (1.0.8)
   - SSZipArchive (2.4.3)
 
@@ -18,7 +18,7 @@ SPEC REPOS:
     - SSZipArchive
 
 SPEC CHECKSUMS:
-  GoNativeCore: c3798e7a1285be8a622bc5bb4bdd232d94e93e65
+  GoNativeCore: c2b5233b2a00316dfbb71710cf668fea9807e072
   MedianIcons: 3c9cd1c257123922fbb67997d33499ec68e08123
   SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
 
